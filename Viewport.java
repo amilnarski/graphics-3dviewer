@@ -120,6 +120,8 @@ class DrawInput implements GLEventListener, KeyListener, MouseListener {
 	private boolean out;
 	private boolean rotateRight;
 	private boolean rotateLeft;
+	private boolean reset;
+	private boolean recolor;
 
 	public void display(GLAutoDrawable drawable) {
 		if (!readPolygons) {
@@ -175,27 +177,45 @@ class DrawInput implements GLEventListener, KeyListener, MouseListener {
 		//rotate by a degree with vup
 		
 		if (this.left) {
+			vrp = new Vertex(vrp.getX() + 1, vrp.getY(), vrp.getZ());
+			viewChanged = true;
 			System.out.println("L");
 		}
 		if (this.right) {
+			vrp = new Vertex(vrp.getX() - 1, vrp.getY(), vrp.getZ());
+			viewChanged = true;
 			System.out.println("R");
 		}
 		if (this.up) {
+			vrp = new Vertex(vrp.getX(), vrp.getY()-1, vrp.getZ());
+			viewChanged = true;
 			System.out.println("U");
 		}
 		if (this.down) {
+			vrp = new Vertex(vrp.getX(), vrp.getY()+1, vrp.getZ());
+			viewChanged = true;
 			System.out.println("D");
 		}
 		if (this.in) {
+			vrp = new Vertex(vrp.getX(), vrp.getY(), vrp.getZ()-1);
+			viewChanged = true;
 			System.out.println("I");
 		}
 		if (this.out) {
+			vrp = new Vertex(vrp.getX(), vrp.getY(), vrp.getZ()+1);
+			viewChanged = true;
 			System.out.println("O");
 		}
 		if (this.rotateLeft) {
+			double [] vupD = vup.getValue();
+			vup = new Vector(vupD[0]+0.1,vupD[1]+0.1,vupD[2]);
+			viewChanged = true;
 			System.out.println("\\");
 		}
 		if (this.rotateRight) {
+			double [] vupD = vup.getValue();
+			vup = new Vector(vupD[0]-0.1,vupD[1]-0.1,vupD[2]);
+			viewChanged = true;
 			System.out.println("/");
 		}
 
@@ -357,6 +377,15 @@ class DrawInput implements GLEventListener, KeyListener, MouseListener {
 			break;
 		case '\\':
 			this.rotateLeft = true;
+			break;
+		case 'c':
+		case 'C':
+			this.recolor = true;
+			break;
+		case '!':
+			//reset the display
+			this.readPolygons = false;
+			this.viewChanged = true;
 			break;
 		default:
 			System.out
