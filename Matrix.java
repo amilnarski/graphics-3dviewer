@@ -32,6 +32,18 @@ public class Matrix{
 		return new Matrix(result);
 		
 	}
+	
+	public Vertex transform(Vertex v){
+		Matrix vertex = new Matrix(new double[][]{{v.getX(),0,0,0},{v.getY(),0,0,0}, {v.getZ(),0,0,0},{1,0,0,0}});
+		//Matrix vertex = new Matrix(new double[][]{{v.getX(),v.getY(), v.getZ(),0}});
+		//System.out.println(vertex);
+		Matrix tv = mult(vertex);
+		//System.out.print("After Mult: "+tv);
+		double[][] res = tv.getTrans();
+		Vertex tran = new Vertex(res[0][0],res[1][0],res[2][0]);
+		return tran;
+	}
+	
 	public String toString(){
 		String to = "";
 		to+="[ "+'\n';

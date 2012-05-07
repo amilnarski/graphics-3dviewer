@@ -30,7 +30,6 @@ public class Vector {
 		coord[0] = coord[0]/mag;
 		coord[1] = coord[1]/mag;
 		coord[2] = coord[2]/mag;
-		
 	}
 
 	public boolean isZero() {

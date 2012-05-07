@@ -26,8 +26,25 @@
 import java.io.*;
 import java.util.*;
 
+
+
 public class ReadObjectAndViewingFiles 
 {
+	static Vertex [] v;
+	static double[][] polyColor;
+	static int[][] polygon;
+	static int numPolys;
+	static int numVs;
+	
+	static Vertex vrp;
+	static Vector vpn;
+	static Vector vup;
+	static Vertex prp;
+	static double umin=0, umax=0, vmin=0, vmax=0;
+	static double frontClip=0, backClip=0;
+	
+	
+	
 	public static void main(String args[]) {
 
 		// NOTE: this program as written expects the 2 command line arguments
@@ -49,22 +66,23 @@ public class ReadObjectAndViewingFiles
 		final int MAX_POLYS = 200;
 		final int MAX_EDGES = 7;
 
-		Vertex v[] = new Vertex[MAX_VERTICES];
+		v = new Vertex[MAX_VERTICES];
 		/* index is the vertex number,
 		 and the Vertex is (x, y, z, 1) coordinates of a vertex of the object */
 
-		double polyColor[][] = new double[MAX_POLYS][3];
+		polyColor= new double[MAX_POLYS][3];
 		/* first index is the polygon number, the next index goes from 0 to 2
 		 representing the RGB values of that polygon */
 
-		int polygon[][] = new int[MAX_POLYS][MAX_EDGES + 1];
+		polygon = new int[MAX_POLYS][MAX_EDGES + 1];
 		/* polygon[i][0] stores the number of vertices that describes 
 		 the polygon i.
 		 polygon[i][1] through polygon[i][polygon[i][0]] store the 
 		 vertex numbers in counter clockwise order
 		 */
 
-		int numVs = 0, numPolys = 0;
+		numVs = 0;
+		numPolys = 0;
 
 		try {
 			objFileBR = new BufferedReader(new FileReader(objfName));
@@ -205,12 +223,7 @@ public class ReadObjectAndViewingFiles
 		String viewfName = args[1]; // second command line arg
 		BufferedReader viewFileBR;
 		/* Viewing parameters */
-		Vertex vrp;
-		Vector vpn;
-		Vector vup;
-		Vertex prp;
-		double umin=0, umax=0, vmin=0, vmax=0;
-		double frontClip=0, backClip=0;
+	
 
 		try {
 			viewFileBR = new BufferedReader(new FileReader(viewfName));
