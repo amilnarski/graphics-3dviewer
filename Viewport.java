@@ -32,7 +32,7 @@ public class Viewport {
 	public static void main(String[] args) {
 		Frame frame = new Frame("Viewport");
 		frame.setLocation(10, 10);
-		frame.setSize(500, 500);
+		frame.setSize(700, 700);
 
 		GLCapabilities glCap = new GLCapabilities();
 		glCap.setRedBits(8);
@@ -157,6 +157,9 @@ class DrawInput implements GLEventListener, KeyListener, MouseListener {
 		for(int i = 0; i<this.polygonsArray[0].length; i++){
 			if (isFrontFacing(i)){
 				gl.glColor3d(this.polyColor[i][0], this.polyColor[i][1], this.polyColor[i][2]);
+				if(recolor){
+					gl.glColor3d(this.polyColor[i][1], this.polyColor[i][2], this.polyColor[i][0]);
+				}
 				gl.glBegin(GL.GL_POLYGON);
 				for (int j = 1; j<=polygonsArray[i][0]; j++){
 					Vertex v = new Vertex(-1*drawVertices[polygonsArray[i][j]].getX()/drawVertices[polygonsArray[i][j]].getZ(),-1*drawVertices[polygonsArray[i][j]].getY()/drawVertices[polygonsArray[i][j]].getZ(),-1*drawVertices[polygonsArray[i][j]].getZ()/drawVertices[polygonsArray[i][j]].getZ());
@@ -380,7 +383,7 @@ class DrawInput implements GLEventListener, KeyListener, MouseListener {
 			break;
 		case 'c':
 		case 'C':
-			this.recolor = true;
+			this.recolor = !this.recolor;
 			break;
 		case '!':
 			//reset the display
