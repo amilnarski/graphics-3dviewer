@@ -134,26 +134,6 @@ class DrawInput implements GLEventListener, KeyListener, MouseListener {
 		gl.glClear(GL.GL_COLOR_BUFFER_BIT); // clears color buffer
 		gl.glColor3f(0, 0, 0); // fill color for polygons
 
-		/*
-		 * // random poly gl.glBegin(GL.GL_POLYGON); gl.glVertex2d(10, 10);
-		 * gl.glVertex2d(100, 60); gl.glVertex2d(150, 75); gl.glVertex2d(100,
-		 * 100); gl.glVertex2d(25, 200); gl.glEnd();
-		 */
-		/*gl.glBegin(GL.GL_POLYGON);
-		for (int i = 0; i < this.drawVertices.length; i++) {
-			if (drawVertices[i] != null) {
-				//System.out.println(drawVertices[i]);
-				Vertex v = new Vertex(-1*drawVertices[i].getX()/drawVertices[i].getZ(),-1*drawVertices[i].getY()/drawVertices[i].getZ(),-1*drawVertices[i].getZ()/drawVertices[i].getZ());
-				System.out.println(v);
-				v = stp.transform(v);
-				//System.out.println(v);
-				gl.glVertex2d(v.getX(), v.getY());
-				}
-
-		}
-		gl.glEnd();*/
-		
-		
 		for(int i = 0; i<this.polygonsArray[0].length; i++){
 			if (isFrontFacing(i)){
 				gl.glColor3d(this.polyColor[i][0], this.polyColor[i][1], this.polyColor[i][2]);
@@ -389,10 +369,29 @@ class DrawInput implements GLEventListener, KeyListener, MouseListener {
 			//reset the display
 			this.readPolygons = false;
 			this.viewChanged = true;
+			s = new Matrix(new double[][] { { 200, 0, 0, 0 }, { 0, 200, 0, 0 },
+					{ 0, 0, 1, 0 }, { 0, 0, 0, 1 } });
+			stp = s.mult(tp);
+			break;
+		case '+':
+			double [][] sD = s.getTrans();
+			sD[0][0]++;
+			sD[1][1]++;
+			s = new Matrix(sD);
+			//this.viewChanged = true;
+			stp = s.mult(tp);
+			break;
+		case '-':
+			double [][] sDM = s.getTrans();
+			sDM[0][0]--;
+			sDM[1][1]--;
+			s = new Matrix(sDM);
+			//this.viewChanged = true;
+			stp = s.mult(tp);
 			break;
 		default:
 			System.out
-					.println("The accepted commands are 'U' or 'D', 'L' or 'R', 'I' or 'O', '/' or '\\'.");
+					.println("The accepted commands are 'U' or 'D', 'L' or 'R', 'I' or 'O', '/' or '\\', '+' or '-', '!', or 'C'.");
 			break;
 		}
 
